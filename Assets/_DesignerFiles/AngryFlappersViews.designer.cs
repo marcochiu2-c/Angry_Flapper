@@ -218,6 +218,38 @@ public abstract class MenuRootViewBase : ViewBase {
     }
 }
 
+[DiagramInfoAttribute("NewProjectRepository")]
+public abstract class CamViewBase : ViewBase {
+    
+    [UFGroup("View Model Properties")]
+    [UnityEngine.HideInInspector()]
+    public CamState _State;
+    
+    public override System.Type ViewModelType {
+        get {
+            return typeof(CamViewModel);
+        }
+    }
+    
+    public CamViewModel Cam {
+        get {
+            return ((CamViewModel)(this.ViewModelObject));
+        }
+        set {
+            this.ViewModelObject = value;
+        }
+    }
+    
+    public override ViewModel CreateModel() {
+        return this.RequestViewModel(GameManager.Container.Resolve<CamController>());
+    }
+    
+    protected override void InitializeViewModel(ViewModel viewModel) {
+        CamViewModel cam = ((CamViewModel)(viewModel));
+        cam.State = this._State;
+    }
+}
+
 public class AngryFlappersGameViewViewBase : AngryFlappersGameViewBase {
     
     [UFToggleGroup("State")]
@@ -362,4 +394,30 @@ public class MenuRootViewViewBase : MenuRootViewBase {
 }
 
 public partial class MenuRootView : MenuRootViewViewBase {
+}
+
+public class CamViewViewBase : CamViewBase {
+    
+    [UFToggleGroup("State")]
+    [UnityEngine.HideInInspector()]
+    [UFRequireInstanceMethod("StateChanged")]
+    public bool _BindState = true;
+    
+    public override ViewModel CreateModel() {
+        return this.RequestViewModel(GameManager.Container.Resolve<CamController>());
+    }
+    
+    /// Subscribes to the property and is notified anytime the value changes.
+    public virtual void StateChanged(CamState value) {
+    }
+    
+    public override void Bind() {
+        base.Bind();
+        if (this._BindState) {
+            this.BindProperty(Cam._StateProperty, this.StateChanged);
+        }
+    }
+}
+
+public partial class CamView : CamViewViewBase {
 }

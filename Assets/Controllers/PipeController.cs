@@ -14,7 +14,7 @@ public class PipeController : PipeControllerBase {
 	public override void Passed (PipeViewModel pipe)
 	{
 		base.Passed (pipe);
-		pipe.ParentAngryFlappersGame.Score++;
+		pipe.ParentAngryFlappersGame.Score+= 1000;
 	}
 
 	public override void RemoveFromScreen (PipeViewModel pipe)

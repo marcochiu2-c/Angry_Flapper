@@ -116,3 +116,22 @@ public abstract class MenuRootControllerBase : Controller {
     public virtual void GoToGame(MenuRootViewModel menuRoot) {
     }
 }
+
+public abstract class CamControllerBase : Controller {
+    
+    [Inject("AngryFlappersGame")] public AngryFlappersGameViewModel AngryFlappersGame { get; set; }
+    [Inject("MenuRoot")] public MenuRootViewModel MenuRoot { get; set; }
+    public abstract void InitializeCam(CamViewModel cam);
+    
+    public override ViewModel CreateEmpty() {
+        return new CamViewModel(this);
+    }
+    
+    public virtual CamViewModel CreateCam() {
+        return ((CamViewModel)(this.Create()));
+    }
+    
+    public override void Initialize(ViewModel viewModel) {
+        this.InitializeCam(((CamViewModel)(viewModel)));
+    }
+}

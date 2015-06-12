@@ -30,15 +30,13 @@ public class AngryFlapperManagerBase : SceneManager {
     
     private AngryFlappersGameViewModel _AngryFlappersGame;
     
-    private MenuRootViewModel _MenuRoot;
-    
     private BirdController _BirdController;
     
     private PipeController _PipeController;
     
     private AngryFlappersGameController _AngryFlappersGameController;
     
-    private MenuRootController _MenuRootController;
+    private CamController _CamController;
     
     public AngryFlapperManagerSettings _AngryFlapperManagerSettings = new AngryFlapperManagerSettings();
     
@@ -52,19 +50,6 @@ public class AngryFlapperManagerBase : SceneManager {
         }
         set {
             _AngryFlappersGame = value;
-        }
-    }
-    
-    [Inject("MenuRoot")]
-    public virtual MenuRootViewModel MenuRoot {
-        get {
-            if ((this._MenuRoot == null)) {
-                this._MenuRoot = CreateInstanceViewModel<MenuRootViewModel>(MenuRootController, "MenuRoot");
-            }
-            return this._MenuRoot;
-        }
-        set {
-            _MenuRoot = value;
         }
     }
     
@@ -108,15 +93,15 @@ public class AngryFlapperManagerBase : SceneManager {
     }
     
     [Inject()]
-    public virtual MenuRootController MenuRootController {
+    public virtual CamController CamController {
         get {
-            if ((this._MenuRootController == null)) {
-                this._MenuRootController = new MenuRootController() { Container = Container };
+            if ((this._CamController == null)) {
+                this._CamController = new CamController() { Container = Container };
             }
-            return this._MenuRootController;
+            return this._CamController;
         }
         set {
-            _MenuRootController = value;
+            _CamController = value;
         }
     }
     
@@ -128,14 +113,12 @@ public class AngryFlapperManagerBase : SceneManager {
     public override void Setup() {
         base.Setup();
         Container.RegisterViewModel<AngryFlappersGameViewModel>(AngryFlappersGame,"AngryFlappersGame");
-        Container.RegisterViewModel<MenuRootViewModel>(MenuRoot,"MenuRoot");
         Container.RegisterController<BirdController>(BirdController);
         Container.RegisterController<PipeController>(PipeController);
         Container.RegisterController<AngryFlappersGameController>(AngryFlappersGameController);
-        Container.RegisterController<MenuRootController>(MenuRootController);
+        Container.RegisterController<CamController>(CamController);
         this.Container.InjectAll();
         AngryFlappersGameController.Initialize(AngryFlappersGame);
-        MenuRootController.Initialize(MenuRoot);
     }
     
     public virtual void GoToMenuTransitionComplete(Menu sceneManager) {

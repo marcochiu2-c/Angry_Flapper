@@ -578,6 +578,77 @@ public partial class MenuRootViewModel : MenuRootViewModelBase {
     }
 }
 
+[DiagramInfoAttribute("NewProjectRepository")]
+public class CamViewModelBase : ViewModel {
+    
+    public P<CamState> _StateProperty;
+    
+    public CamViewModelBase(CamControllerBase controller, bool initialize = true) : 
+            base(controller, initialize) {
+    }
+    
+    public CamViewModelBase() : 
+            base() {
+    }
+    
+    public override void Bind() {
+        base.Bind();
+        _StateProperty = new P<CamState>(this, "State");
+    }
+}
+
+public partial class CamViewModel : CamViewModelBase {
+    
+    public CamViewModel(CamControllerBase controller, bool initialize = true) : 
+            base(controller, initialize) {
+    }
+    
+    public CamViewModel() : 
+            base() {
+    }
+    
+    public virtual P<CamState> StateProperty {
+        get {
+            return this._StateProperty;
+        }
+    }
+    
+    public virtual CamState State {
+        get {
+            return _StateProperty.Value;
+        }
+        set {
+            _StateProperty.Value = value;
+        }
+    }
+    
+    protected override void WireCommands(Controller controller) {
+    }
+    
+    public override void Write(ISerializerStream stream) {
+		base.Write(stream);
+		stream.SerializeInt("State", (int)this.State);
+    }
+    
+    public override void Read(ISerializerStream stream) {
+		base.Read(stream);
+		this.State = (CamState)stream.DeserializeInt("State");
+    }
+    
+    public override void Unbind() {
+        base.Unbind();
+    }
+    
+    protected override void FillProperties(List<ViewModelPropertyInfo> list) {
+        base.FillProperties(list);;
+        list.Add(new ViewModelPropertyInfo(_StateProperty, false, false, true));
+    }
+    
+    protected override void FillCommands(List<ViewModelCommandInfo> list) {
+        base.FillCommands(list);;
+    }
+}
+
 public enum AngryFlappersGameState {
     
     Menu,
@@ -592,4 +663,11 @@ public enum BirdState {
     Alive,
     
     Dead,
+}
+
+public enum CamState {
+    
+    Play,
+    
+    GameOver,
 }
