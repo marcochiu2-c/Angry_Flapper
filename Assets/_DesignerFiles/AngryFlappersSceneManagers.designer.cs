@@ -26,8 +26,6 @@ public sealed partial class AngryFlapperManagerSettings {
 // </summary>
 public class AngryFlapperManagerBase : SceneManager {
     
-    public MenuSettings _GoToMenuTransition = new MenuSettings();
-    
     private AngryFlappersGameViewModel _AngryFlappersGame;
     
     private BirdController _BirdController;
@@ -121,20 +119,8 @@ public class AngryFlapperManagerBase : SceneManager {
         AngryFlappersGameController.Initialize(AngryFlappersGame);
     }
     
-    public virtual void GoToMenuTransitionComplete(Menu sceneManager) {
-    }
-    
-    public virtual System.Collections.Generic.IEnumerable<string> GetGoToMenuScenes() {
-        return this._GoToMenuTransition._Scenes;
-    }
-    
-    public virtual void GoToMenu() {
-        GameManager.TransitionLevel<Menu>((container) =>{container._MenuSettings = _GoToMenuTransition; GoToMenuTransitionComplete(container); }, this.GetGoToMenuScenes().ToArray());
-    }
-    
     public override void Initialize() {
         base.Initialize();
-        AngryFlappersGame.GoToMenu.Subscribe(_=> GoToMenu()).DisposeWith(this.gameObject);
     }
 }
 
@@ -148,8 +134,6 @@ public sealed partial class MenuSettings {
 // The responsibility of this class is to manage the scenes Initialization, Loading, Transitioning, and Unloading.
 // </summary>
 public class MenuBase : SceneManager {
-    
-    public AngryFlapperManagerSettings _GoToGameTransition = new AngryFlapperManagerSettings();
     
     private MenuRootViewModel _MenuRoot;
     
@@ -196,19 +180,7 @@ public class MenuBase : SceneManager {
         MenuRootController.Initialize(MenuRoot);
     }
     
-    public virtual void GoToGameTransitionComplete(AngryFlapperManager sceneManager) {
-    }
-    
-    public virtual System.Collections.Generic.IEnumerable<string> GetGoToGameScenes() {
-        return this._GoToGameTransition._Scenes;
-    }
-    
-    public virtual void GoToGame() {
-        GameManager.TransitionLevel<AngryFlapperManager>((container) =>{container._AngryFlapperManagerSettings = _GoToGameTransition; GoToGameTransitionComplete(container); }, this.GetGoToGameScenes().ToArray());
-    }
-    
     public override void Initialize() {
         base.Initialize();
-        MenuRoot.GoToGame.Subscribe(_=> GoToGame()).DisposeWith(this.gameObject);
     }
 }

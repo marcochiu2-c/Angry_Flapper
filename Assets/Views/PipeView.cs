@@ -15,10 +15,11 @@ public partial class PipeView{
 
 	public override void Start ()
 	{	
-		if(Pipe.ParentAngryFlappersGame != null)
+		if (Pipe.ParentAngryFlappersGame != null) {
 			playtime = Pipe.ParentAngryFlappersGame.Try;
-		Debug.Log (playtime);
-		base.Start ();
+			Debug.Log (playtime);
+			base.Start ();
+		}
 
 	}
 
@@ -30,9 +31,9 @@ public partial class PipeView{
 		if (Pipe != null && Pipe.ParentAngryFlappersGame.State == AngryFlappersGameState.Playing) {
 			this.transform.position -= Vector3.right * Pipe.ParentAngryFlappersGame.ScrollSpeed * Time.deltaTime;
 			if (this.transform.position.x < -15f || playtime != Pipe.ParentAngryFlappersGame.Try) {
-				gameObject.SetActive (false);
+				//gameObject.SetActive (false);
+				//Destroy (gameObject);
 				ExecuteRemoveFromScreen ();
-				Destroy (gameObject);
 			}
 		}
 	}

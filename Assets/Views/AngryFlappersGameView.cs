@@ -32,7 +32,8 @@ public partial class AngryFlappersGameView {
     /// This binding will add or remove views based on an element/viewmodel collection.
     public override void PipesRemoved(ViewBase item) {
         base.PipesRemoved(item);
-    }
+		Destroy (item.gameObject);
+	}
 
 	public Transform _MenuDisplay;
 	public Transform _GameOverDisplay;
