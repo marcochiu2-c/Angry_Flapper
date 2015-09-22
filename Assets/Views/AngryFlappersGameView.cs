@@ -14,8 +14,8 @@ public partial class AngryFlappersGameView {
     /// Subscribes to the property and is notified anytime the value changes.
     public override void ScoreChanged(Int32 value) {
 		base.ScoreChanged (value);
-		_ScoreLabel.text = string.Format ("儲蓄: HKD{0}", value);
-		_FinalScoreLabel.text = string.Format ("儲蓄: HKD{0}", value);
+		_ScoreLabel.text = string.Format ("Score: {0}", value);
+		_FinalScoreLabel.text = string.Format ("Score: {0}", value);
 
 	}
 
